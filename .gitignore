@@ -1,6 +1,7 @@
 paper/
 *.whl
 __pycache__/
+reference-papers/
 *.ipynb
 notes/
 
