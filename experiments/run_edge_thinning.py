@@ -1,25 +1,25 @@
 #!/usr/bin/env python3
 """
-A5: a genuinely controlled density intervention (internal review, P0).
+Density intervention (internal review, P0).
 
 The relation-graph sweep varied mean degree, but relations also differ in edge
 semantics, homophily, degree distribution and component structure. Our own sweep
-showed that confound: at matched degree, YelpChi GCN = 0.218 against Amazon
+showed that at matched degree, YelpChi GCN = 0.218 against Amazon
 GCN = 0.489, and dataset explained more variance than degree (eta^2 0.183 vs
-0.090). That experiment supports an association, not a causal claim.
+0.090).
 
-This script fixes it. Take ONE relation graph and randomly delete edges from it.
+This script takes ONE relation graph and randomly delete edges from it.
 Edge semantics, node set, features and labels are then identical by construction
 across every density level; only the edge count changes. `stratified_split`
 draws from `data.y` and the seed alone and never touches `edge_index`, so for a
 fixed model seed the train/val/test partition is also bit-identical across
-levels. The single manipulated variable is density.
+levels. The independent variable is density.
 
-SEEDS ARE DECOUPLED. The internal review (A6/E11) criticised the main grid for
+SEEDS ARE DECOUPLED, result from internal review criticising the main grid for
 coupling split and parameter seeds, so it would be self-defeating to ship a new
 experiment where one seed drives the edge sample, the split AND the
-initialisation at once -- variance across seeds could not then be attributed to
-edge sampling. `--edge-seeds` and `--seeds` are crossed:
+initialisation at once, thus variance across seeds could not then be attributed to
+edge sampling.
 
     edge_seed  -> which edges survive
     seed       -> split and parameter initialisation
@@ -27,21 +27,6 @@ edge sampling. `--edge-seeds` and `--seeds` are crossed:
 3 x 3 gives edge-sampling variance at fixed model seed, and model variance at
 fixed graph, separately.
 
-BUILT-IN CONTROLS. Two, in the spirit of the leakage check:
-  1. keep=1.00 is a no-op, so all three edge seeds must give an identical graph
-     and identical diagnostics. Any spread there is a harness bug.
-  2. The run asserts that the keep=1.00 edge count matches the untouched graph.
-     Earlier this script sampled over `ei[0] < ei[1]`, which silently dropped
-     every self-loop at all levels including 100% -- so the anchor would not
-     have been the graph the density sweep measured. Sampling is over `<=`.
-
-DIAGNOSTICS. Degree quantiles, isolated-node rate, component count,
-largest-component share and edge homophily at every level. Thinning does not
-only sparsify, it fragments, and the paper must not attribute fragmentation
-effects to density.
-
-Usage:
-  python run_edge_thinning.py --out /content/drive/MyDrive/journal-ext/thinning
 """
 import argparse
 import json

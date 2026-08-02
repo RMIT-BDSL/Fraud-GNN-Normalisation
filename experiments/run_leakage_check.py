@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-C3: do normalisation statistics leak test-node information, and does removing
+Do normalisation statistics leak test-node information, and does removing
 that leak change our finding?
 
-The paper calls the Elliptic protocol leakage-free because the temporal split is
+The Elliptic protocol leakage-free because the temporal split is
 edge-disjoint. That argument covers message passing but not normalisation.
 BatchNorm, GraphNorm and PairNorm all pool statistics over nodes, and full-graph
 training passes every node through each forward pass. Test-node features
@@ -54,8 +54,6 @@ NOTE. The 'all' arm here will not be bitwise identical to the main grid, because
 the main grid used nn.BatchNorm1d with running statistics at eval. The internal
 comparison is what this experiment is for; treat the main grid separately.
 
-Usage:
-  python run_leakage_check.py --out /content/drive/MyDrive/journal-ext/leakage
 """
 import argparse
 import json

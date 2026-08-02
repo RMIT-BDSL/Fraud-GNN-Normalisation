@@ -11,50 +11,8 @@ governing variable is the saturation
 
 and MAD should fall as s -> 1 regardless of which of k or L produced it.
 
-CORRECTED 2026-07-26. An earlier version of this docstring quoted saturation
-values computed from the mean degrees printed in the paper (4.6 / 335 / 737).
-Two of those were wrong by a factor of two: Table 1 lists DIRECTED arc counts
-for Elliptic and YelpChi but UNDIRECTED counts for Amazon, then applies 2E/n to
-all three. The true degrees are 2.30 / 167.43 / 736.50. The code below was
-always right -- it computes k = edge_index.size(1) / N = 2E/n -- so only these
-worked examples changed. Read results against THESE numbers:
-
-  YelpChi   L=1  s=0.004  -> should NOT collapse; unnormalised GCN should work
-            L=2  s=0.610  -> partially saturated (paper reports collapse here)
-            L=3  s=1.000  -> saturated
-  Amazon    L=1  s=0.062  -> should NOT collapse
-            L=2  s=1.000  -> collapses (this is what the paper reports)
-  Elliptic  L=2  s=0.000  -> does not collapse (paper reports this)
-            L=8  s=0.004  -> should STILL NOT collapse
-
-That last line is the point of the experiment, and the correction is what makes
-it worth running. At the paper's erroneous k=4.6, saturation predicted collapse
-at Elliptic L=8 -- and so does the over-smoothing literature (li2018deeper,
-oono2020graph), for unrelated reasons. Two hypotheses agreeing is a weak test.
-At the true k=2.30 they DISAGREE: saturation predicts no collapse at 8 layers,
-depth-driven over-smoothing predicts collapse. The experiment now discriminates.
-
-The confound is asymmetric in our favour. A positive collapse finding at L=8 is
-muddy, since deep GNNs degrade for optimisation reasons unrelated to
-over-smoothing. A null finding is clean -- and null is what saturation predicts.
-
-Elliptic needs L ~ 15 to reach s = 1, which is deep enough that training
-pathology dominates; we deliberately stop at 8 and note this in the limitations
-rather than chase a confounded positive.
-
 Interpretation note: report mad_random alongside mad. Low mad with HIGH
-mad_random is homophily, not collapse -- the density sweep produced exactly this
-artefact on YelpChi R-U-R (mad 4e-09, mad_random 0.15, AUPRC 0.54, nothing
-collapsed). mad alone will mislead you at L=1.
-
-Priority if compute is short: L=1 on the dense graphs first (36 runs, ~0.2 h,
-tests the cheap prediction), then Elliptic depth (108 runs, ~5.3 h, tests the
-discriminating one). Full sweep is ~6.5 h; it is resume-safe, so it can be
-killed and restarted.
-
-Usage:
-  python run_depth_sweep.py --out /content/drive/MyDrive/journal-ext/depth
-  python run_depth_sweep.py --out ... --datasets elliptic --layers 1 2 3 4 6 8
+mad_random is homophily, not collapse.
 """
 import argparse
 import json

@@ -2,8 +2,6 @@
 """
 Turn run_grid.py output into paper-ready tables (LaTeX + markdown) and figures.
 
-Usage:
-  python analyze_results.py --results results --out analysis
 Expects results/<dataset>_all.csv produced by run_grid.py.
 """
 import argparse

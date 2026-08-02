@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Edge homophily per relation graph. No training, no GPU -- seconds on CPU.
+Edge homophily per relation graph. CPU only.
 
 The density sweep varies mean degree across relation-specific adjacencies while
 holding nodes, features, labels and splits fixed. But it does NOT hold edge
@@ -11,10 +11,9 @@ shared label, and AUPRC tracks that far more than it tracks density:
     YelpChi   AUPRC  0.59 (k=2) -> 0.21 (k=25) -> 0.26 (k=148) -> 0.26 (k=167)
     Amazon    AUPRC  0.62 (k=29) -> 0.67 (k=174) -> 0.53 (k=597) -> 0.56 (k=737)
 
-Non-monotonic in both. Without this measurement the paper has to concede the
-confound; with it, the paper can show the MECHANISM result (mad_random vs
-degree) is robust while the ACCURACY result is homophily-driven, which is the
-honest and much stronger position.
+Non-monotonic in both. Without this measurement we concede the
+confound; with it, we show the MECHANISM result (mad_random vs
+degree) is robust while the ACCURACY result is homophily-driven.
 
 Reports three quantities per relation:
 
@@ -80,10 +79,6 @@ def main():
     out.parent.mkdir(parents=True, exist_ok=True)
     df.to_csv(out, index=False)
     print(f"\nWrote {len(df)} rows -> {out}")
-    print("\nTo interpret: if h_adj explains the AUPRC ordering better than "
-          "mean_degree does, say so in the paper. That is the honest reading, "
-          "and it does not touch the mad_random-vs-degree result.")
-
 
 if __name__ == "__main__":
     main()

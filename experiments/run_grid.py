@@ -1,14 +1,10 @@
 #!/usr/bin/env python3
 """
-Journal extension experiment grid for:
-"Normalisation and Initialisation Strategies for GNNs in Blockchain Anomaly Detection"
-(extended version of EANN 2026 paper).
-
 Grid: {GCN, GAT, SAGE} x {default, xavier, kaiming} x {none, batch, layer, graph, pair}
       x 5 seeds x {elliptic, yelp, amazon}
 
 Design goals:
-  - Fully resume-safe: each (dataset, model, init, norm, seed) run writes one JSON.
+  - Resume-safe: each (dataset, model, init, norm, seed) run writes one JSON.
     Existing JSONs are skipped, so Colab disconnects cost nothing.
   - No Kaggle auth needed: Elliptic comes via PyG's mirror; Yelp/Amazon via CARE-GNN repo.
   - Reuses conference-paper hyperparameters (no new Optuna) for comparability.
@@ -39,8 +35,7 @@ from torch_geometric.nn import GATConv, GCNConv, GraphNorm, PairNorm, SAGEConv
 from torch_geometric.utils import to_undirected
 
 # ----------------------------------------------------------------------------
-# Conference-paper tuned hyperparameters (Table 1 of EANN-26). Reused verbatim
-# on Elliptic; sensible fixed defaults on the two generalisation datasets.
+# Conference-paper tuned hyperparameters (Table 1 of EANN-26)
 # ----------------------------------------------------------------------------
 HPARAMS = {
     "elliptic": {

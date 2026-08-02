@@ -8,12 +8,6 @@ from the existing results. This script retrains 9 models (3 datasets x 3
 architectures) at the configuration that maximised mean test AUPRC, using the
 same seed-0 protocol, and writes the raw scores.
 
-Cost: roughly 25-40 min on an L4 (Amazon and YelpChi GAT dominate).
-
-Usage (Colab, after Cells 1-3):
-  !cd /content && python save_predictions.py \
-      --results /content/drive/MyDrive/journal-ext/results \
-      --out     /content/drive/MyDrive/journal-ext/predictions
 """
 import argparse
 import json

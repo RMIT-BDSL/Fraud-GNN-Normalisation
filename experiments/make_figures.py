@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-Generate paper figures from the experiment CSVs, to Springer Nature artwork spec.
+Generate paper figures from the experiment CSVs.
 
-Spec followed (IJMLC / Springer submission guidelines):
+Spec to follow guidelines:
   - width 174 mm (double-column text area) or 84 mm; height <= 234 mm
   - vector output (PDF); fonts embedded as Type 42
   - sans-serif lettering, 8-10 pt, consistent across figures
@@ -11,8 +11,6 @@ Spec followed (IJMLC / Springer submission guidelines):
   - colour-blind safe palette (Okabe-Ito) AND hatching/markers so figures
     survive greyscale printing; contrast >= 4.5:1
 
-Usage:
-  python make_figures.py --results ../experiments-output --out ../paper/figures
 """
 import argparse
 from pathlib import Path
@@ -379,13 +377,7 @@ def fig6(pred_dir, out):
 def fig7(pred_dir, out):
     """Distribution of pairwise cosine distances between test-node embeddings,
     with and without normalisation, on the two dense datasets.
-
-    A two-dimensional projection is the conventional choice here but is not
-    sound for this claim: t-SNE and UMAP preserve only relative neighbourhood
-    structure, so they expand a degenerate embedding to fill the plotting area
-    and display apparent structure where none exists. The distribution of
-    pairwise cosine distances is the quantity MAD averages, is scale-free in the
-    same way MAD is, and cannot manufacture separation."""
+    """
     import json
     store = {}
     for f in sorted(Path(pred_dir).glob("*.npz")):

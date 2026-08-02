@@ -2,8 +2,8 @@
 """
 Density sweep: fill the gap between mean degree 5 and 300.
 
-The paper currently rests its density claim on three graphs (mean degree 4.6,
-335, 737), i.e. one sparse point and two dense ones. This script varies density
+The density claim rests on three graphs (mean degree 4.6, 335, 737), i.e. 
+one sparse point and two dense ones. This script varies density
 on data we already have, by using the *relation-specific* adjacencies that the
 YelpChi and Amazon benchmarks ship with, instead of only their union.
 
@@ -20,8 +20,6 @@ Nodes, features, labels and splits are identical across relations, so density is
 manipulated with everything else held constant. That converts a two-regime
 categorical claim into a continuous one.
 
-Usage:
-  python run_density_sweep.py --out /content/drive/MyDrive/journal-ext/density
 """
 import argparse
 import json

@@ -2,15 +2,13 @@
 """
 Regenerate the Elliptic ANOVA (Table 4) and its inline statistics from the
 canonical per-run results, so the manuscript numbers are never transcribed by
-hand (internal review E9/A1).
+hand.
 
 Two-way factorial ANOVA of test AUPRC on normalisation x initialisation per
 architecture, Type II sums of squares, eta^2 = SS_factor / SS_total. Residual df
 is 60 (75 runs = 15 cells x 5 seeds, minus 15 fitted cell means). Also refits
 with seed as a blocking factor and reports whether any verdict changes.
 
-Usage:
-  python make_anova_table.py --csv ../experiments-output/elliptic_all.csv
 """
 import argparse
 from pathlib import Path
